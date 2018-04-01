@@ -1,0 +1,36 @@
+.console-output {
+    position: absolute;
+    width: 100%;
+    top: 37px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    overflow-y: scroll;
+}
+.console-output li {
+    width: 100%;
+    list-style: none;
+    float: left;
+    margin: 0px;
+    font: 8pt Mono;
+    white-space: pre;
+}
+.console-output li span, .console-output li div {
+    padding: 0px 4px;
+}
+.console-msg-ts {
+    width: 15em;
+    float: left;
+}
+.console-msg-type {
+    width: 3.8em;
+    float: left;
+}
+.console-msg-message {
+    width: auto;
+    float: left;
+    text-align: left;
+}
