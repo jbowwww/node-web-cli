@@ -8,9 +8,9 @@
 }
 
 .console-input-container input {
-    width: 42em;
-		margin: 3px;
-		padding: 0px 4px;
+  width: 42em;
+	margin: 3px;
+	padding: 0px 4px;
 }
 .console-input-container button {
 	position: relative;
@@ -22,9 +22,46 @@
 }
 
 .console-output-container {
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    background: rgb(26,26,26);
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: rgb(26,26,26);
+}
+
+.console-output {
+  position: absolute;
+  top: 28px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: 0px;
+  padding: 0px;
+	background-color: rgb(26,26,26);
+	color: white;
+  overflow-y: scroll;
+}
+.console-output li {
+  width: 100%;
+  list-style: none;
+  float: left;
+  margin: 0px;
+  font: 8pt Mono;
+  white-space: pre;
+}
+.console-output li span, .console-output li div {
+  padding: 0px 4px;
+}
+.console-msg-ts {
+  float: left;
+  font: 6pt Arial;
+}
+.console-msg-type {
+  float: left;
+  font: 6pt Arial;
+}
+.console-msg-message {
+  width: auto;
+  float: left;
+  text-align: left;
 }
