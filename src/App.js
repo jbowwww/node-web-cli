@@ -1,6 +1,6 @@
 import React from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
-import ConsoleOutput from './ConsoleOutput.js'
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import Console from './Console.js'
 import makeRef from './makeref.js';
 import logo from './logo.svg';
 import './App.css';
@@ -8,105 +8,50 @@ import './App.css';
 import innerClassnames from 'classnames';
 const classnames = (...args) => innerClassnames(...args) + ' nav-tab';
 
-class App extends React.Component {
+export default class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.cmd = makeRef();
-				this.sendCmdButton = makeRef();
-        this.consoleOutput = makeRef();
-        this.toggle = this.toggle.bind(this);
-        this.updateCommand = this.updateCommand.bind(this);
-        this.checkForEnterKey = this.checkForEnterKey.bind(this);
-        this.sendCmd = this.sendCmd.bind(this);
-        this.cmdHistory = [];
-        this.state = {
-            ws: null,
-            cmd: '',
-            activeTab: '1'
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.console = makeRef();
+    this.toggle = this.toggle.bind(this);
+		this.ws = new WebSocket('ws://127.0.0.1:8080');
 
-    toggle(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({ activeTab: tab });
-        }
-    }
-
-    componentDidMount() {
-        var ws = new WebSocket('ws://127.0.0.1:8080');
-        ws.onmessage = msg => {
-					var co = this.consoleOutput.current;
-					console.log('co', co);
-					co.append(JSON.parse(msg.data));
-					//co.scrollTop = co.scrollHeight - co.offsetHeight;
-				};
-        this.setState({ ws });
-				this.cmd.current.focus();
-        console.log('componentDidMount', 'state', this.state, 'this', this, 'this.consoleOutput', this.consoleOutput);
-    }
-
-    updateCommand(e) {
-        this.setState({ cmd: e.target.value || '' });
-    }
-
-    checkForEnterKey(e) {
-        if ((e.which || e.keyCode) === 13) {
-            e.preventDefault();
-            this.sendCmd();
-        }
-    }
-
-    sendCmd() {
-        this.cmdHistory.push(this.state.cmd);
-        console.log('sendCmd()', 'state', this.state, 'this', this, 'this.cmd.current.value', this.cmd.current.value);
-        this.state.ws.send(this.state.cmd);
-    }
-
-    render() {
-      return (
-        <div className="App">
-          <Nav tabs>
-            <NavItem>
-              <NavLink className={classnames({ active: this.state.activeTab === '1' })} onClick={() => this.toggle('1')}>Console</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={classnames({ active: this.state.activeTab === '2' })} onClick={() => this.toggle('2')}>Diagnostics</NavLink>
-            </NavItem>
-						<img src={logo} className="App-logo" alt="logo" />
-          </Nav>
-        	<TabContent activeTab={this.state.activeTab}>
-          	<TabPane tabId="1">
-              <div className="console-input-container">
-                <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} onBlur={()=>this.cmd.current.focus()} />
-                <Button ref={this.sendCmdButton} id="btnRun" color="secondary" size="sm" onClick={this.sendCmd}>Send Command</Button>
-              </div>
-              <div className="console-output-container">
-                <ConsoleOutput ref={this.consoleOutput} />
-              </div>
-	          </TabPane>
-	          <TabPane tabId="2">
-	            <Row>
-	              <Col sm="6">
-	                <Card body>
-	                  <CardTitle>Special Title Treatment</CardTitle>
-	                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-	                  <Button>Go somewhere</Button>
-	                </Card>
-	              </Col>
-	              <Col sm="6">
-	                <Card body>
-	                  <CardTitle>Special Title Treatment</CardTitle>
-	                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-	                  <Button>Go somewhere</Button>
-	                </Card>
-	              </Col>
-	            </Row>
-	          </TabPane>
-      	</TabContent>
-      </div>
-    );
+		this.state = {
+      activeTab: '1'
+    };
   }
-}
 
-export default App;
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab });
+    }
+  }
+
+  componentDidMount() {
+    this.ws.onmessage = msg => this.console.current.appendOutput(JSON.parse(msg.data));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Nav tabs>
+          <NavItem>
+            <NavLink className={classnames({ active: this.state.activeTab === '1' })} onClick={() => this.toggle('1')}>Console</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className={classnames({ active: this.state.activeTab === '2' })} onClick={() => this.toggle('2')}>Diagnostics</NavLink>
+          </NavItem>
+					<img src={logo} className="App-logo" alt="logo" />
+        </Nav>
+      	<TabContent activeTab={this.state.activeTab}>
+        	<TabPane tabId="1">
+            <Console ref={this.console} ws={this.ws} />
+          </TabPane>
+          <TabPane tabId="2">
+
+					</TabPane>
+    		</TabContent>
+    	</div>
+  	);
+	}
+}

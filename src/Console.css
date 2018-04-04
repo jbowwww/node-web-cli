@@ -1,0 +1,30 @@
+.console-input-container {
+  text-align: left;
+  background-color: rgb(26,26,26);
+  width: 100%;
+  padding: 2px 2px;
+  color: white;
+	font-size: 7pt;
+}
+
+.console-input-container input {
+    width: 42em;
+		margin: 3px;
+		padding: 0px 4px;
+}
+.console-input-container button {
+	position: relative;
+	top: -1px;
+	margin: 0px;
+	margin-left: 4px;
+	padding: 0px 4px;
+	font-size: 7pt;
+}
+
+.console-output-container {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgb(26,26,26);
+}
