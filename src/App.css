@@ -1,57 +1,87 @@
 .App {
   text-align: center;
+  padding-top: 4px;
+	background: rgb(90,90,90);
+	font-size: 6pt;
+}
+
+.nav {
+    padding-left: 3px !important;
+}
+.nav-tabs {
+	font-size: 8pt;
+	border-bottom: 1px solid rgb(242,242,242) !important;
+	z-index: -10;
+}
+
+.nav-item {
+    color: rgb(84,84,84);
+}
+
+.nav-item:hover {
+	cursor: pointer;
+}
+.nav-tab {
+	background: white !important;
+	color: black !important;
+
+}
+.nav-tab.active {
+    background: rgb(26,26,26) !important;
+		color: rgb(242,242,242) !important;
+		border-bottom: none !important;
+}
+.nav-link {
+    line-height: 1em;
+    padding: 1px 8px 1px 8px !important;
+		margin-top: 4px;
+}
+.nav-link.active {
+    font-weight: bold;
+		margin-top: 0px;
+    padding: 4px 8px 4px 8px !important;
+}
+
+.tab-content {
+	z-index: 10;
+}
+
+.App-header {
+    text-align: left;
+    background-color: rgb(26,26,26);
+  width: 100%;
+  padding: 1px 2px;
+  color: white;
+	font-size: 6pt;
+	vertical-align: middle;
 }
 
 .App-logo {
-    margin: -1px 5px;
     float: right;
   animation: App-logo-spin infinite 20s linear;
   height: 25px;
 }
 
-.App-header {
-    background-color: #222;
-  height: 25px;
-  width: 100%;
-  padding: 6px;
-  color: white;
-}
-
 .App-header input {
     width: 22em;
-    float: left;
+		margin: 4px;
 }
 .App-header button {
-    width: auto;
-    float: left;
+	margin-left: 4px;
+	padding: 1px 4px 0px 4px;
+	font-size: 7pt;
+	vertical-align: middle;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
+.App-content {
     top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
-    background: rgb(63,63,63);
+    background: rgb(26,26,26);
 }
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-#output {
-    position: absolute;
-    margin-top: 37px;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    text-align: left;
-    overflow-y: scroll;
-    border: 1px solid red;
-    white-space: pre;
 }

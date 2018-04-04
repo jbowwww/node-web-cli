@@ -1,13 +1,13 @@
 .console-output {
     position: absolute;
-    width: 100%;
-    top: 37px;
+    top: 50px;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    float: left;
-    margin: 0px;
+        margin: 0px;
     padding: 0px;
+		background-color: rgb(26,26,26);
+		color: white;
     overflow-y: scroll;
 }
 .console-output li {
@@ -22,12 +22,12 @@
     padding: 0px 4px;
 }
 .console-msg-ts {
-    width: 15em;
     float: left;
+    font: 6pt Arial;
 }
 .console-msg-type {
-    width: 3.8em;
     float: left;
+    font: 6pt Arial;
 }
 .console-msg-message {
     width: auto;

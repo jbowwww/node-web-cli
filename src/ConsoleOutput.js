@@ -31,7 +31,7 @@ class ConsoleOutput extends React.Component {
                 {_.map(this.state.messages, msg => {
                     //var ts = msg.ts.split('T', 2);  //ts[0]}<br/>{ts[1]}
                     return (<li key={'cmd-' + msg.ts}>
-                        <span className="console-msg-ts">{msg.ts}</span>
+                        <span className="console-msg-ts">{msg.ts.substring(msg.ts.indexOf('T')+1)}</span>
                         <span className="console-msg-type">{msg.type}</span>
                         <span className="console-msg-message">{msg.message}</span>
                     </li>);
