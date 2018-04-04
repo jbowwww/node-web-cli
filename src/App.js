@@ -37,6 +37,7 @@ class App extends React.Component {
         var ws = new WebSocket('ws://127.0.0.1:8080');
         ws.onmessage = msg => this.consoleOutput.current.append(JSON.parse(msg.data));
         this.setState({ ws });
+				this.cmd.current.focus();
         console.log('componentDidMount', 'state', this.state, 'this', this, 'this.consoleOutput', this.consoleOutput);
     }
 
@@ -67,17 +68,17 @@ class App extends React.Component {
             <NavItem>
               <NavLink className={classnames({ active: this.state.activeTab === '2' })} onClick={() => this.toggle('2')}>Diagnostics</NavLink>
             </NavItem>
+						<img src={logo} className="App-logo" alt="logo" />
           </Nav>
         	<TabContent activeTab={this.state.activeTab}>
           	<TabPane tabId="1">
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} />
+              <div className="console-input-container">
+                <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} onBlur={()=>this.cmd.current.focus()} />
                 <Button ref={this.sendCmdButton} id="btnRun" color="secondary" size="sm" onClick={this.sendCmd}>Send Command</Button>
-              </header>
-              <content className="App-content">
+              </div>
+              <div className="console-output-container">
                 <ConsoleOutput ref={this.consoleOutput} />
-              </content>
+              </div>
 	          </TabPane>
 	          <TabPane tabId="2">
 	            <Row>
