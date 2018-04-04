@@ -35,7 +35,12 @@ class App extends React.Component {
 
     componentDidMount() {
         var ws = new WebSocket('ws://127.0.0.1:8080');
-        ws.onmessage = msg => this.consoleOutput.current.append(JSON.parse(msg.data));
+        ws.onmessage = msg => {
+					var co = this.consoleOutput.current;
+					console.log('co', co);
+					co.append(JSON.parse(msg.data));
+					//co.scrollTop = co.scrollHeight - co.offsetHeight;
+				};
         this.setState({ ws });
 				this.cmd.current.focus();
         console.log('componentDidMount', 'state', this.state, 'this', this, 'this.consoleOutput', this.consoleOutput);

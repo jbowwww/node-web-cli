@@ -1,12 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
+import makeRef from './makeref.js';
 import './ConsoleOutput.css';
 
 class ConsoleOutput extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { messages: [] };
+				this.consoleOutputUL = makeRef();
         this.append = this.append.bind(this);
+        this.state = { messages: [] };
     }
 
     append(msg) {
@@ -22,12 +24,13 @@ class ConsoleOutput extends React.Component {
             msg.type || (msg.type = 'stdout');
             msg.message || (msg.message = '');
             this.setState({ messages: this.state.messages.concat([msg]) });
+						this.consoleOutputUL.current.scrollTo(0, this.consoleOutputUL.current.scrollHeight);
         }
     }
 
     render() {
         return (
-            <ul className="console-output">
+            <ul ref={this.consoleOutputUL} className="console-output">
                 {_.map(this.state.messages, msg => {
                     //var ts = msg.ts.split('T', 2);  //ts[0]}<br/>{ts[1]}
                     return (<li key={'cmd-' + msg.ts}>
