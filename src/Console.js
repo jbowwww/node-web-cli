@@ -6,45 +6,63 @@ import './Console.css';
 
 export default class Console extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.cmd = makeRef();
-		this.sendCmdButton = makeRef();
-    this.consoleOutput = makeRef();
-    this.updateCommand = this.updateCommand.bind(this);
-    this.checkForEnterKey = this.checkForEnterKey.bind(this);
-    this.sendCmd = this.sendCmd.bind(this);
+	constructor(props) {
+		super(props);
+		this.cmd = makeRef();
+		this.execButton = makeRef();
+    	this.consoleOutput = makeRef();
+	    this.updateCommand = this.updateCommand.bind(this);
+	    this.checkForEnterKey = this.checkForEnterKey.bind(this);
+	    this.execCmd = this.execCmd.bind(this);
 		this.appendOutput = this.appendOutput.bind(this);
-    this.cmdHistory = [];
-    this.state = {
-      cmd: '',
-			messages: []
-    };
-  }
+	    this.cmdHistory = [];
+	    this.cmdHistoryIndex = -1;	// when >= 0, index into this.cmdHistory selected by up/dn arrows
+		this.state = { messages: [] };
+	}
 
-  componentDidMount() {
+	componentDidMount() {
 		this.cmd.current.focus();
-  }
+	}
 
-  updateCommand(e) {
-    this.setState({ cmd: e.target.value || '' });
-  }
+	updateCommand(e) {
+    	this.setState({ cmd: e.target.value || '' });
+	}
 
-  checkForEnterKey(e) {
+	checkForEnterKey(e) {
 		var key = e.which || e.keyCode;
-    if (key === 13) {
-      e.preventDefault();
-      this.sendCmd();
-    } else {
-			console.log('e.which', e.which, 'e.keyCode', e.keyCode, 'key', key);
-		}
-  }
+		switch (key) {
+    		case 13:	// enter
+	    		this.execCmd();
+				e.preventDefault();
+	    		break;
+			case 38:	// up arrow
+				e.preventDefault();
+				if (this.cmdHistoryIndex < this.cmdHistory.length - 1) {
+					this.cmdHistoryIndex++;
+				}
+				this.cmd.current.value = this.cmdHistory[this.cmdHistoryIndex];
+				break;
+			case 40:	// dn arrow
+				e.preventDefault();
+				if (this.cmdHistoryIndex >= 0) {
+					this.cmdHistoryIndex--;
+				}
+				this.cmd.current.value = this.cmdHistory[this.cmdHistoryIndex];
+				break;
+			default: break;
+    	}
+	}
 
-  sendCmd() {
-    this.cmdHistory.push(this.state.cmd);
-    console.log('sendCmd()', 'state', this.state, 'this', this, 'this.cmd.current.value', this.cmd.current.value);
-    this.props.ws.send(this.state.cmd);
-  }
+	execCmd() {
+		var cmd = this.cmd.current.value;
+		console.log('execCmd()', 'this', this, 'this.cmd.current.value', cmd);
+		if (cmd !== '') {
+			this.cmdHistory.push(cmd);
+			this.props.ws.send(cmd);
+			setTimeout(()=>this.cmd.current.value = '', 40);
+		}
+		this.cmdHistoryIndex = -1;	// reset command history recall buffer index
+	}
 
 	appendOutput(output) {
 		if (Array.isArray(output)) {
@@ -63,14 +81,17 @@ export default class Console extends React.Component {
 		}
 	}
 
-  render() {
-    return (
+	render() {
+	    return (
 			<div className="console-container">
-	      <div className="console-input-container">
-	        <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} onKeyUp={this.checkForEnterKey} onBlur={()=>this.cmd.current.focus()} />
-	        <Button ref={this.sendCmdButton} id="btnRun" color="secondary" size="sm" onClick={this.sendCmd}>Send Command</Button>
-	      </div>
-	      <div className="console-output-container">
+		     	<div className="console-input-container">
+			        <input ref={this.cmd} type="text" className="console-cmd"
+						onBlur={()=>this.cmd.current.focus()}
+						onKeyUp={this.checkForEnterKey} />
+			        <Button ref={this.execButton} color="secondary" size="sm"
+						onClick={this.execCmd}>Send Command</Button>
+		    	</div>
+		    	<div className="console-output-container">
 					<ul ref={this.consoleOutput} className="console-output">
 						{_.map(this.state.messages, msg => {
 							//var ts = msg.ts.split('T', 2);  //ts[0]}<br/>{ts[1]}
@@ -81,8 +102,8 @@ export default class Console extends React.Component {
 							</li>);
 						})}
 					</ul>
-	      </div>
+		    	</div>
 			</div>
-  	);
+	  	);
 	}
 }

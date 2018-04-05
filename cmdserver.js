@@ -28,18 +28,15 @@ function createMessage(message, type) {
 }
 
 io.on('connection', function (socket) {// WebSocket Connection
-  var lightvalue = 0; //static variable for current status
-  console.log(`connection: socket=${inspect(socket._socket)}`)
-  socket.on('message', function(data) { //get light switch status from client
-      console.log(`socket.on('message'): ${inspect(data)}`)
-      var proc = exec(data, { stdio: 'pipe' });
-      proc.stdout.on('data', data => socket.send(createMessage(data, 'stdout')));//JSON.stringify({ type: 'stdout', message: data })));
-      proc.stderr.on('data', data => socket.send(createMessage(data, 'stderr')));//JSON.stringify({ type: 'stderr', message: data })));
-      // proc.stdout.on('close', () => console.log('proc.stdout.on(\'close\')'));
-
-    lightvalue = data;
-    if (lightvalue) {
-      console.log(lightvalue); //turn LED on or off, for now we will just show it in console.log
-    }
-  });
+	var lightvalue = 0; //static variable for current status
+	console.log(`connection: socket=${inspect(socket._socket)}`)
+	socket.on('message', function(data) { //get light switch status from client
+    	console.log(`socket.on('message'): ${!data ? '(undef-'+(typeof data)+')' : data === '' ? '(emptystr)' : inspect(data)}`)
+    	if (typeof data === 'string' && data !== '') {
+			var proc = exec(data, { stdio: 'pipe' });
+      		proc.stdout.on('data', data => socket.send(createMessage(data, 'stdout')));//JSON.stringify({ type: 'stdout', message: data })));
+      		proc.stderr.on('data', data => socket.send(createMessage(data, 'stderr')));//JSON.stringify({ type: 'stderr', message: data })));
+      		// proc.stdout.on('close', () => console.log('proc.stdout.on(\'close\')'));
+		}
+	});
 });

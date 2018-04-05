@@ -7,7 +7,7 @@
 	font-size: 7pt;
 }
 
-.console-input-container input {
+.console-input-container input.console-cmd {
   width: 42em;
 	margin: 3px;
 	padding: 0px 4px;
