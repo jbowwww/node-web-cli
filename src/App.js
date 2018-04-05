@@ -14,8 +14,8 @@ export default class App extends React.Component {
     super(props);
     this.console = makeRef();
     this.toggle = this.toggle.bind(this);
-		this.ws = new WebSocket('ws://127.0.0.1:8080');
-
+		this.ws = new WebSocket(this.props.cmdServer);//'ws://127.0.0.1:8080');
+		this.ws.onmessage = msg => this.console.current.appendOutput(JSON.parse(msg.data));
 		this.state = {
       activeTab: '1'
     };
@@ -27,14 +27,13 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.ws.onmessage = msg => this.console.current.appendOutput(JSON.parse(msg.data));
-  }
+  componentDidMount() { }
 
   render() {
     return (
       <div className="App">
         <Nav tabs>
+					<div className="App-cmd-server"><div>cmdServer: {this.props.cmdServer}</div></div>
           <NavItem>
             <NavLink className={classnames({ active: this.state.activeTab === '1' })} onClick={() => this.toggle('1')}>Console</NavLink>
           </NavItem>

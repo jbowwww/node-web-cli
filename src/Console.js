@@ -31,10 +31,13 @@ export default class Console extends React.Component {
   }
 
   checkForEnterKey(e) {
-    if ((e.which || e.keyCode) === 13) {
+		var key = e.which || e.keyCode;
+    if (key === 13) {
       e.preventDefault();
       this.sendCmd();
-    }
+    } else {
+			console.log('e.which', e.which, 'e.keyCode', e.keyCode, 'key', key);
+		}
   }
 
   sendCmd() {
@@ -64,7 +67,7 @@ export default class Console extends React.Component {
     return (
 			<div className="console-container">
 	      <div className="console-input-container">
-	        <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} onBlur={()=>this.cmd.current.focus()} />
+	        <input type="text" id="cmd" ref={this.cmd} onChange={this.updateCommand} onKeyPress={this.checkForEnterKey} onKeyUp={this.checkForEnterKey} onBlur={()=>this.cmd.current.focus()} />
 	        <Button ref={this.sendCmdButton} id="btnRun" color="secondary" size="sm" onClick={this.sendCmd}>Send Command</Button>
 	      </div>
 	      <div className="console-output-container">

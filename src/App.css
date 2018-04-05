@@ -5,6 +5,17 @@
 	font-size: 6pt;
 }
 
+.App-cmd-server {
+	font-size: 6pt;
+	padding: 0px 9px;
+	color: rgb(242, 255, 242);
+}
+.App-cmd-server div {
+	font-size: 6pt;
+	margin: 4px 4px 1px 4px;
+	color: rgb(242, 255, 242);
+}
+
 .nav {
     padding-left: 3px !important;
 }
