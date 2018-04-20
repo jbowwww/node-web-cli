@@ -1,8 +1,20 @@
 .App {
-  text-align: center;
-  padding-top: 4px;
+	text-align: center;
+	padding-top: 4px;
 	background: rgb(72,72,72);
 	font-size: 6pt;
+}
+
+.App-logo {
+	position: absolute;
+	top: 0px;
+	right: 2px;
+	animation: App-logo-spin infinite 20s linear;
+	height: 20px;
+}
+@keyframes App-logo-spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
 }
 
 .App-cmd-server {
@@ -39,48 +51,36 @@
 }
 .nav-tab.active {
     background: rgb(26,26,26) !important;
-		color: rgb(242,242,242) !important;
-		border-bottom: none !important;
+	color: rgb(242,242,242) !important;
+	border-bottom: none !important;
 }
 .nav-link {
     line-height: 1em;
     padding: 1px 8px 1px 8px !important;
-		margin-top: 4px;
+	margin-top: 4px;
 }
 .nav-link.active {
     font-weight: bold;
-		margin-top: 0px;
+	margin-top: 0px;
     padding: 4px 8px 4px 8px !important;
-}
-
-.App-logo {
-	position: absolute;
-  top: 0px;
-	right: 2px;
-  animation: App-logo-spin infinite 20s linear;
-  height: 20px;
-}
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .tab-content {
 	z-index: 10;
-  width: 100%;
-  top: 23px;
-  bottom: 0px;
-  position: absolute;
+	width: 100%;
+	top: 23px;
+	bottom: 0px;
+	position: absolute;
 }
 .tab-pane {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-      margin: 0px;
-  padding: 0px;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	margin: 0px;
+	padding: 0px;
 	background-color: rgb(26,26,26);
 	color: white;
-  overflow-y: scroll;
+	overflow-y: auto;
 }
